@@ -1,0 +1,8 @@
+version: '3'
+services:
+    go-server:
+        restart: 'unless-stopped'
+        build: .
+        ports:
+            - '443:443'
+            - '8080:8080'
