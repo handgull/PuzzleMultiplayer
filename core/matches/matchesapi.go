@@ -84,11 +84,10 @@ func (mAPI *MatchesAPI) AddClient(c io.ReadWriteCloser) {
 		seed := -1
 		opponentHeroes := new([]matchesmodels.Hero)
 		if isPlayer {
-			opponentHeroes = &req.Heroes
 			mmakerDataCh := make(chan matchMakerData)
-			mAPI.waitingRoom.pair(uname, opponentHeroes, mmakerDataCh)
+			mAPI.waitingRoom.pair(uname, &req.Heroes, mmakerDataCh)
 			matchmakingRes := <-mmakerDataCh
-			seed, req.Room, yourTurn = matchmakingRes.seed, matchmakingRes.room, matchmakingRes.yourTurn
+			seed, req.Room, yourTurn, opponentHeroes = matchmakingRes.seed, matchmakingRes.room, matchmakingRes.yourTurn, matchmakingRes.OpponentHeroes
 		}
 		// TODO: soluzione temporanea, qui metto brutalmente l'id dal token
 		internalReq := &innerAddClient{
